@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dolar-historico", "dolar-historico\dolar-historico.csproj", "{7C863FEA-5D39-47AF-8634-E21F2CC6BAF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C863FEA-5D39-47AF-8634-E21F2CC6BAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C863FEA-5D39-47AF-8634-E21F2CC6BAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C863FEA-5D39-47AF-8634-E21F2CC6BAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C863FEA-5D39-47AF-8634-E21F2CC6BAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CC9C7AA-5745-4FD5-968E-5C7068712E43}
+	EndGlobalSection
+EndGlobal

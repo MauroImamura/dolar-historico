@@ -1,0 +1,136 @@
+﻿@model Cotacao
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var dadosCotacao = Model.Cotacoes;
+}
+
+<div class="text-center">
+    <h1 class="display-4">DÓLAR COMERCIAL</h1>
+    <p>Dados do Banco Central do Brasil.</p>
+</div>
+<br/>
+<br/>
+
+@if(Model.TipoResposta == ETipoResposta.valido)
+{
+    <div class="container">
+        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
+            <h3>Cotações:</h3>
+            <br/>
+            <input disabled type="hidden" id="ctt" value="@Model.Cotacoes" />
+            <input disabled type="hidden" id="dt" value="@Model.Data" />
+            <p>
+                Data de referência: <input disabled id="dataCotacao" value="@Model.Data"/>
+            </p>
+            <br />
+            <p>
+                Dólar de Compra: <input disabled class="number" id="compra" value="" />
+            </p>
+            <br />
+            <p>
+                Dólar de Venda: <input disabled class="number" id="venda" value="" />
+            </p>
+        </div>
+        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
+            <p>
+                Valor comprado: <input class="number" id="valorComprado" value="" />
+            </p>
+            <br />
+            <p>
+                Valor de Venda: <input class="number" id="valorVendido" value="" />
+            </p>
+        </div>
+        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
+            <p>
+                Total de compra: <input disabled class="number" id="totalComprado" value="0" />
+            </p>
+            <br />
+            <p>
+                Total de venda: <input disabled class="number" id="totalVendido" value="0" />
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <h3>Não há dados disponíveis.</h3>
+    </div>
+}
+<br />
+<br />
+
+<div>
+    <h3>Selecione outra data:</h3>
+    <input type="date" id="dataEscolhida" name="dataEscolhida">
+    <button onclick="BuscaCotacao()">Pesquisar</button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var info = $("#ctt").val();
+        var data = $("#dt").val();
+        MostrarCotacao(data,info);
+    })
+
+    function MostrarCotacao(data,info){
+        var arr = $.parseJSON(info);
+        var v = arr.value;
+        if (v.length == 0) {
+            $("#compra").val("Sem informação");
+            $("#venda").val("Sem informação");
+        }
+        else {
+            var cotCompra = v[0].cotacaoCompra;
+            var cotVenda = v[0].cotacaoVenda;
+            if (cotCompra != "") {
+                $("#compra").val(cotCompra);
+            }
+            else {
+                $("#compra").val("Sem informação");
+            }
+            if (cotVenda != "") {
+                $("#venda").val(cotVenda);
+            }
+            else {
+                $("#venda").val("Sem informação");
+            }
+        }
+    }
+
+    function BuscaCotacao(){
+        var dataEscolhida = $("#dataEscolhida").val();
+        var arrDt = dataEscolhida.split('-');
+        var dataAtualizada = arrDt[2] + '/' + arrDt[1] + '/' + arrDt[0]
+        var url = "/Home/UpdateValues";
+        $.post(url,{dataEscolhida:dataEscolhida}, function(data){
+            $("#dataCotacao").val(dataAtualizada);
+            MostrarCotacao(dataEscolhida, data);
+            AtualizaResultado();
+        });
+    }
+
+    function AtualizaResultado(){
+        var cc = $("#compra").val();
+        var vc = $("#valorComprado").val();
+        var cResult = cc*vc;
+        $("#totalComprado").val(cResult);
+
+        var cv = $("#venda").val();
+        var vv = $("#valorVendido").val();
+        var vResult = cv * vv;
+        $("#totalVendido").val(vResult);
+    }
+
+    $("#valorComprado").change(function(){
+        AtualizaResultado();
+    })
+
+    $("#valorVendido").change(function () {
+        AtualizaResultado();
+    })
+</script>
