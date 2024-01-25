@@ -6,51 +6,74 @@
     var dadosCotacao = Model.Cotacoes;
 }
 
-<div class="text-center">
-    <h1 class="display-4">DÓLAR COMERCIAL</h1>
-    <p>Dados do Banco Central do Brasil.</p>
+<style>
+    .dolarTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .dolarTable th, .dolarTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+
+<div>
+    <h2 class="text-center">DÓLAR COMERCIAL</h1>
+        <br />
+    <div style="border: 2px solid #ccc; background-color: #181818; padding: 10px;">
+        <ul>
+            <li>Dados do Banco Central do Brasil.</li>
+            <li>Selecione a data para consulta. Os valores mostrados são as cotações de compra e venda no fechamento da data escolhida.</li>
+            <li>Os dados estão disponíveis apenas para dias úteis.</li>
+        </ul>
+    </div>
 </div>
 <br/>
-<br/>
+<br />
+<br />
 
 @if(Model.TipoResposta == ETipoResposta.valido)
 {
+    <div class="dataInput">
+        <input disabled hidden id="dataCotacao" value="@Model.Data"/>
+        <input disabled type="hidden" id="ctt" value="@Model.Cotacoes" />
+        <input disabled type="hidden" id="dt" value="@Model.Data" />
+        <h3>Selecione uma data:</h3>
+        <div>
+            <input type="date" id="dataEscolhida" name="dataEscolhida">
+            <button onclick="BuscaCotacao()">Pesquisar</button>
+        </div>
+    </div>
+    <br />
+    <br />
     <div class="container">
-        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
-            <h3>Cotações:</h3>
-            <br/>
-            <input disabled type="hidden" id="ctt" value="@Model.Cotacoes" />
-            <input disabled type="hidden" id="dt" value="@Model.Data" />
-            <p>
-                Data de referência: <input disabled id="dataCotacao" value="@Model.Data"/>
-            </p>
-            <br />
-            <p>
-                Dólar de Compra: <input disabled class="number" id="compra" value="" />
-            </p>
-            <br />
-            <p>
-                Dólar de Venda: <input disabled class="number" id="venda" value="" />
-            </p>
-        </div>
-        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
-            <p>
-                Valor comprado: <input class="number" id="valorComprado" value="" />
-            </p>
-            <br />
-            <p>
-                Valor de Venda: <input class="number" id="valorVendido" value="" />
-            </p>
-        </div>
-        <div style="display:inline-block; padding-right: 50px; white-space: nowrap">
-            <p>
-                Total de compra: <input disabled class="number" id="totalComprado" value="0" />
-            </p>
-            <br />
-            <p>
-                Total de venda: <input disabled class="number" id="totalVendido" value="0" />
-            </p>
-        </div>
+        <h3>Cotações:</h3>
+        <table class="dolarTable">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Cotação do dia</td>
+                    <td>Valor movimentado (USD)</td>
+                    <td>Valor convertido (BRL)</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Compra</td>
+                    <td><input class="number currency" disabled id="compra" value="" /></td>
+                    <td><input class="number currency" id="valorComprado" value="" /></td>
+                    <td><input class="number currency" disabled id="totalComprado" value="0" /></td>
+                </tr>
+                <tr>
+                    <td>Venda</td>
+                    <td><input class="number currency" disabled id="venda" value="" /></td>
+                    <td><input class="number currency" id="valorVendido" value="" /></td>
+                    <td><input class="number currency" disabled id="totalVendido" value="0" /></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 }
 else
@@ -62,14 +85,10 @@ else
 <br />
 <br />
 
-<div>
-    <h3>Selecione outra data:</h3>
-    <input type="date" id="dataEscolhida" name="dataEscolhida">
-    <button onclick="BuscaCotacao()">Pesquisar</button>
-</div>
-
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/jquery.inputmask.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var info = $("#ctt").val();
