@@ -55,7 +55,7 @@
                 <tr>
                     <td></td>
                     <td>Cotação do dia</td>
-                    <td>Valor movimentado (USD)</td>
+                    <td>Valor movimentado* (USD)</td>
                     <td>Valor convertido (BRL)</td>
                 </tr>
             </thead>
@@ -74,6 +74,7 @@
                 </tr>
             </tbody>
         </table>
+        <span style="font-size: 12px;">*O valor movimentado deve ser informado apenas com os dígitos e o separador decimal.  Por exemplo.:  2512.55</span>
     </div>
 }
 else
@@ -88,12 +89,20 @@ else
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/jquery.inputmask.min.js"></script>
 <script type="text/javascript">
+    const formater = new Intl.NumberFormat('pt-br', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+    var cc = 0;
+    var cv = 0;
+    
     $(document).ready(function(){
         var info = $("#ctt").val();
         var data = $("#dt").val();
         MostrarCotacao(data,info);
+        const currentDate = new Date().toISOString().split('T')[0];
+        document.getElementById('dataEscolhida').value = currentDate;
     })
 
     function MostrarCotacao(data,info){
@@ -104,16 +113,16 @@ else
             $("#venda").val("Sem informação");
         }
         else {
-            var cotCompra = v[0].cotacaoCompra;
-            var cotVenda = v[0].cotacaoVenda;
-            if (cotCompra != "") {
-                $("#compra").val(cotCompra);
+            cc = v[0].cotacaoCompra;
+            cv = v[0].cotacaoVenda;
+            if (cc != "") {
+                $("#compra").val(formater.format(cc));
             }
             else {
                 $("#compra").val("Sem informação");
             }
-            if (cotVenda != "") {
-                $("#venda").val(cotVenda);
+            if (cv != "") {
+                $("#venda").val(formater.format(cv));
             }
             else {
                 $("#venda").val("Sem informação");
@@ -134,14 +143,11 @@ else
     }
 
     function AtualizaResultado(){
-        var cc = $("#compra").val();
-        var vc = $("#valorComprado").val();
-        var cResult = cc*vc;
+        var vc = $("#valorComprado").val().replace(',','.');
+        var cResult = formater.format(cc*vc);
         $("#totalComprado").val(cResult);
-
-        var cv = $("#venda").val();
-        var vv = $("#valorVendido").val();
-        var vResult = cv * vv;
+        var vv = $("#valorVendido").val().replace(',','.');
+        var vResult = formater.format(cv * vv);
         $("#totalVendido").val(vResult);
     }
 
