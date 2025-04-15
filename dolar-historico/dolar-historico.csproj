@@ -8,7 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Table\" />
+    <Compile Remove="Table\**" />
+    <Content Remove="Table\**" />
+    <EmbeddedResource Remove="Table\**" />
+    <None Remove="Table\**" />
   </ItemGroup>
 
   <ItemGroup>

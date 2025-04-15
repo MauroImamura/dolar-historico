@@ -1,8 +1,5 @@
 ﻿using dolar_historico.Models.Enumerators;
 using System.Net.Http.Headers;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Text.Json;
 
 namespace dolar_historico.Models.Repositories
 {
@@ -16,7 +13,7 @@ namespace dolar_historico.Models.Repositories
         }
         public Cotacao GetCotacoes(DateOnly data)
         {
-            string? param = $"CotacaoDolarDia(dataCotacao=@dataCotacao)?%40dataCotacao='{data.ToString("MM-dd-yyyy")}'";
+            string? param = $"CotacaoDolarDia(dataCotacao=@dataCotacao)?%40dataCotacao='{data:MM-dd-yyyy}'";
 
             var client = new HttpClient();
             client.BaseAddress = new Uri(sourceRoot);

@@ -1,8 +1,6 @@
 ﻿using dolar_historico.Models;
 using dolar_historico.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Text.Json;
 
 namespace dolar_historico.Controllers
 {
